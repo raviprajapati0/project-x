@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TripMate AI — Flight Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <header class="ticket-header">
+    <div class="ticket-header-inner">
+      <span class="th-item">FLIGHT PLAN NO. 001</span>
+      <span class="th-item th-center">CLASS · SUPERVISED&nbsp;AI</span>
+      <span class="th-item th-right">ORIGIN: YOUR DESK</span>
+    </div>
+  </header>
+
+  <main class="app-container">
+
+    <section class="hero">
+      <p class="eyebrow">TripMate AI — LangGraph · MCP · Supervisor · Guardrails · HITL</p>
+      <h1>Plan your <span>perfect trip</span><br>before you pack a bag.</h1>
+      <p class="hero-copy">
+        Describe the trip. A supervisor agent routes the work to flight, hotel,
+        weather and budget agents, drafts an itinerary, and hands it back to you
+        for the final sign-off.
+      </p>
+    </section>
+
+    <section class="boarding-pass">
+      <div class="bp-main">
+        <div class="bp-row-label">
+          <span class="eyebrow">Where to</span>
+          <span class="status-pill"><span class="status-dot"></span>Online</span>
+        </div>
+
+        <textarea
+          id="userInput"
+          placeholder="Plan a complete 7 days Japan trip including flights, hotels and sightseeing under 2 lakhs..."
+        ></textarea>
+
+        <div class="tag-row">
+          <button class="tag-btn" onclick="setPrompt('Plan a complete 7 days Japan trip from Bangladesh including flights, hotels and sightseeing under 2 lakhs.')">
+            Japan Trip
+          </button>
+          <button class="tag-btn" onclick="setPrompt('Plan a 5 days Dubai trip from Dhaka with flights, hotels and sightseeing.')">
+            Dubai Trip
+          </button>
+          <button class="tag-btn" onclick="setPrompt('Plan a 7 days Thailand trip from Bangladesh with budget hotels and sightseeing.')">
+            Thailand Trip
+          </button>
+          <button class="tag-btn" onclick="setPrompt('Give me all country flight info.')">
+            Global Flights
+          </button>
+        </div>
+      </div>
+
+      <div class="bp-perf" aria-hidden="true"></div>
+
+      <div class="bp-stub">
+        <span class="stub-label">Depart</span>
+        <button id="sendBtn" onclick="sendMessage()">
+          <span id="btnText">Generate Draft</span>
+          <span id="btnLoader" class="loader hidden"></span>
+        </button>
+        <span class="stub-hint">Ctrl + Enter to send</span>
+      </div>
+    </section>
+
+    <section id="workflowSection" class="workflow-board hidden">
+      <div class="board-head">
+        <span class="eyebrow board-eyebrow">Supervisor Agent · Routing Log</span>
+        <span id="guardrailBadge" class="guardrail-badge">Guardrail passed</span>
+      </div>
+      <p id="supervisorReasoning" class="board-reasoning"></p>
+      <div id="agentChips" class="agent-chips"></div>
+    </section>
+
+    <section id="resultSection" class="result-sheet hidden">
+      <div class="stamp" id="resultStamp" aria-hidden="true">CONFIRMED</div>
+
+      <div class="sheet-head">
+        <div>
+          <h2 id="resultTitle">Your AI Travel Plan</h2>
+          <p id="threadInfo" class="thread-info">Thread ID: -</p>
+        </div>
+        <div class="result-actions">
+          <button class="copy-btn" onclick="copyResult()">Copy</button>
+          <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
+        </div>
+      </div>
+
+      <div class="barcode" aria-hidden="true"></div>
+
+      <div id="pdfContent" class="pdf-content">
+        <h1 class="pdf-title">AI Travel Plan</h1>
+        <div id="resultBox" class="result-box"></div>
+      </div>
+    </section>
+
+    <section id="approvalSection" class="approval-card hidden">
+      <div class="approval-stamp" aria-hidden="true">REVIEW</div>
+      <div class="approval-content">
+        <span class="eyebrow">Human in the Loop</span>
+        <h2>Review the draft before it ships</h2>
+        <p id="approvalRequest">
+          Approve the draft or provide feedback before the final plan is generated.
+        </p>
+
+        <textarea
+          id="approvalFeedback"
+          class="feedback-input"
+          placeholder="Add revision feedback, for example: reduce the hotel cost and add one free day..."
+        ></textarea>
+
+        <div class="approval-actions">
+          <button id="approveBtn" class="approve-btn" onclick="submitApproval(true)">
+            Approve &amp; Generate Final
+          </button>
+          <button id="reviseBtn" class="revise-btn" onclick="submitApproval(false)">
+            Revise Using Feedback
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="errorBox" class="error-box hidden"></section>
+
+  </main>
+
+  <footer>
+    <p>Built with FastAPI · LangGraph · Groq · PostgreSQL · Tavily · AviationStack · MCP</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="/static/script.js"></script>
+</body>
+</html>

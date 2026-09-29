@@ -69,4 +69,4 @@ Acknowledgements
 Built as a demonstration of LangGraph + MCP patterns with supervisor and guardrail concepts.
 Contact
 
-For questions or suggestions, open an issue or contact the repository owner.
+
